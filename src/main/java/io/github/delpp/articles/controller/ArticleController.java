@@ -12,6 +12,7 @@ import javax.validation.Valid;
 import java.net.URI;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 class ArticleController {
@@ -42,6 +43,16 @@ class ArticleController {
         return repository.findById(id)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
+    }
+
+    @GetMapping("/articles/search/{word}")
+    ResponseEntity<List<Article>> readArticle(@PathVariable String word){
+        return ResponseEntity.ok(
+                repository
+                .findAll()
+                .stream()
+                .filter(x -> (x.getDescription().contains(word) || (x.getTitle().contains(word))))
+                        .collect(Collectors.toList()));
     }
 
     @PutMapping("/articles/{id}")
