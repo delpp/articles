@@ -2,7 +2,6 @@ package io.github.delpp.articles.model;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
-import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
@@ -22,6 +21,15 @@ public class Article {
     private LocalDateTime articleSaveDate;
 
     public Article() {
+    }
+
+    public Article(String title, String description, LocalDate publicationDate, String titleOfJournal, String authorName, String authorSecondName) {
+        this.title = title;
+        this.description = description;
+        this.publicationDate = publicationDate;
+        this.titleOfJournal = titleOfJournal;
+        this.authorName = authorName;
+        this.authorSecondName = authorSecondName;
     }
 
     public Article(String title, String description, LocalDate publicationDate, String titleOfJournal, String authorName, String authorSecondName, LocalDateTime articleSaveDate) {

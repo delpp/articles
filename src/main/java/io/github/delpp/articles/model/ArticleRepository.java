@@ -8,6 +8,8 @@ import java.util.Optional;
 public interface ArticleRepository {
     List<Article> findAll(Sort descending);
 
+    List<Article> findAll();
+
     Optional<Article> findById(Integer id);
 
     Article save(Article entity);

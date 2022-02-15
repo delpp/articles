@@ -52,6 +52,7 @@ class ArticleController {
                 .findAll()
                 .stream()
                 .filter(x -> (x.getDescription().contains(word) || (x.getTitle().contains(word))))
+                        .sorted()
                         .collect(Collectors.toList()));
     }
 
