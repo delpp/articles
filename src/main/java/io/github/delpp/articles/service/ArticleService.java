@@ -1,4 +1,4 @@
-package io.github.delpp.articles.logic;
+package io.github.delpp.articles.service;
 
 import org.springframework.stereotype.Service;
 

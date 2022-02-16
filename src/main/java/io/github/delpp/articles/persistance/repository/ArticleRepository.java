@@ -1,5 +1,6 @@
-package io.github.delpp.articles.model;
+package io.github.delpp.articles.persistance.repository;
 
+import io.github.delpp.articles.persistance.model.Article;
 import org.springframework.data.domain.Sort;
 
 import java.util.List;

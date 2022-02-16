@@ -1,6 +1,6 @@
-package io.github.delpp.articles.model.projection;
+package io.github.delpp.articles.model;
 
-import io.github.delpp.articles.model.Article;
+import io.github.delpp.articles.persistance.model.Article;
 
 import java.time.LocalDate;
 
@@ -12,7 +12,7 @@ public class ArticleDTO {
     private String authorName;
     private String authorSecondName;
 
-    ArticleDTO(Article source) {
+    public ArticleDTO(Article source) {
         title = source.getTitle();
         description = source.getDescription();
         publicationDate = LocalDate.parse(source.getPublicationDate());
@@ -69,7 +69,7 @@ public class ArticleDTO {
         this.authorSecondName = authorSecondName;
     }
 
-    public Article toArticle(){
-       return new Article(title, description, publicationDate, titleOfJournal, authorName, authorSecondName);
-    }
+//    public Article toArticle(){
+//       return new Article(title, description, publicationDate, titleOfJournal, authorName, authorSecondName);
+//    }
 }

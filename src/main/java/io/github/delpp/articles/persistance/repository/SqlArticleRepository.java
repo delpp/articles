@@ -1,9 +1,8 @@
-package io.github.delpp.articles.model;
+package io.github.delpp.articles.persistance.repository;
 
+import io.github.delpp.articles.persistance.model.Article;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-
-import java.util.List;
 
 @Repository
 interface SqlArticleRepository extends ArticleRepository, JpaRepository<Article, Integer> {
