@@ -3,6 +3,7 @@ package io.github.delpp.articles.controller;
 import io.github.delpp.articles.model.ArticleDTO;
 import io.github.delpp.articles.persistance.model.Article;
 import io.github.delpp.articles.persistance.repository.ArticleRepository;
+import io.github.delpp.articles.service.ArticleServiceImpl;
 import io.github.delpp.articles.service.Mapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,60 +20,63 @@ import java.util.stream.Collectors;
 @RestController
 class ArticleController {
     private static final Logger logger = LoggerFactory.getLogger(ArticleController.class);
-    private final ArticleRepository repository;
+    private final ArticleServiceImpl articleService;
 
 
-    ArticleController(final ArticleRepository repository) {
-        this.repository = repository;
+    ArticleController(ArticleServiceImpl articleService) {
+        this.articleService = articleService;
     }
 
     @PostMapping("/articles")
     ResponseEntity<ArticleDTO> createArticle(@RequestBody @Valid ArticleDTO toCreate){
-        Article result = Mapper.dtoToArticle(toCreate);
 
-        result.setArticleSaveDate(LocalDateTime.now());
+        Article result = articleService.save(toCreate);
 
-        ArticleDTO toOut =  Mapper.articleToDTO(repository.save(result));
-
-        return ResponseEntity.created(URI.create("/" + result.getId())).body(toOut);
+        return ResponseEntity.created(URI.create("/" + result.getId())).body(Mapper.articleToDTO(result));
     }
 
     @GetMapping(value = "/articles")
-    ResponseEntity<List<ArticleDTO>> readAllArticles(Sort sort){
+    ResponseEntity<List<ArticleDTO>> readAllArticles(){
         logger.warn("Exposing all articles");
-        return ResponseEntity.ok(repository.findAll(sort.descending()).stream().map(x -> Mapper.articleToDTO(x)).collect(Collectors.toList()));
+        return ResponseEntity.ok(articleService.findAll());
     }
 
-    @GetMapping("/articles/{id}")
-    ResponseEntity<ArticleDTO> readArticle(@PathVariable int id){
-        return repository.findById(id)
-                .map(x -> Mapper.articleToDTO(x))
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+    @GetMapping(value = "/articles", params = {"sort", "!page", "!size"})
+    ResponseEntity<List<ArticleDTO>> readAllArticles(Sort sort){
+        logger.warn("Exposing all sorted articles");
+        return ResponseEntity.ok(articleService.findAll(sort));
     }
 
-    @GetMapping("/articles/search/{word}")
-    ResponseEntity<List<ArticleDTO>> readArticle(@PathVariable String word){
-        return ResponseEntity.ok(
-                repository
-                .findAll()
-                .stream()
-                .filter(x -> (x.getDescription().contains(word) || (x.getTitle().contains(word))))
-                        .sorted()
-                        .map(x -> Mapper.articleToDTO(x))
-                        .collect(Collectors.toList()));
-    }
+//    @GetMapping("/articles/{id}")
+//    ResponseEntity<ArticleDTO> readArticle(@PathVariable int id){
+//        return articleService.findById(id)
+//                .map(x -> Mapper.articleToDTO(x))
+//                .map(ResponseEntity::ok)
+//                .orElse(ResponseEntity.notFound().build());
+//    }
 
-    @PutMapping("/articles/{id}")
-    ResponseEntity<?> updateArticle(@PathVariable int id, @RequestBody @Valid ArticleDTO toUpdate){
-        if (!repository.existsById(id)) {
-            return ResponseEntity.notFound().build();
-        }
-        Article article = Mapper.dtoToArticle(toUpdate);
-        article.setId(id);
+//    @GetMapping("/articles/search/{word}")
+//    ResponseEntity<List<ArticleDTO>> readArticle(@PathVariable String word){
+//        return ResponseEntity.ok(
+//                articleService
+//                .findAll()
+//                .stream()
+//                .filter(x -> (x.getDescription().contains(word) || (x.getTitle().contains(word))))
+//                        .sorted()
+//                        .map(x -> Mapper.articleToDTO(x))
+//                        .collect(Collectors.toList()));
+//    }
 
-        repository.save(article);
-        return ResponseEntity.noContent().build();
-    }
+//    @PutMapping("/articles/{id}")
+//    ResponseEntity<?> updateArticle(@PathVariable int id, @RequestBody @Valid ArticleDTO toUpdate){
+//        if (!articleService.existsById(id)) {
+//            return ResponseEntity.notFound().build();
+//        }
+//        Article article = Mapper.dtoToArticle(toUpdate);
+//        article.setId(id);
+//
+//        articleService.save(article);
+//        return ResponseEntity.noContent().build();
+//    }
 
 }

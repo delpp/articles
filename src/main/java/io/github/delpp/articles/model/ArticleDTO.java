@@ -12,6 +12,9 @@ public class ArticleDTO {
     private String authorName;
     private String authorSecondName;
 
+    ArticleDTO() {
+    }
+
     public ArticleDTO(Article source) {
         title = source.getTitle();
         description = source.getDescription();
@@ -69,7 +72,4 @@ public class ArticleDTO {
         this.authorSecondName = authorSecondName;
     }
 
-//    public Article toArticle(){
-//       return new Article(title, description, publicationDate, titleOfJournal, authorName, authorSecondName);
-//    }
 }

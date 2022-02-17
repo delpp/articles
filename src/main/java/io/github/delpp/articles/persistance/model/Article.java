@@ -1,4 +1,4 @@
-package io.github.delpp.articles.model;
+package io.github.delpp.articles.persistance.model;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -106,5 +106,10 @@ public class Article {
 
     public void setArticleSaveDate(LocalDateTime articleSaveDate) {
         this.articleSaveDate = articleSaveDate;
+    }
+
+    @PrePersist
+    void setDataBeforeInsert(){
+        this.articleSaveDate = LocalDateTime.now();
     }
 }
