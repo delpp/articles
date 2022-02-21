@@ -54,7 +54,7 @@ public class Article {
         return title;
     }
 
-    void setTitle(String title) {
+    public void setTitle(String title) {
         this.title = title;
     }
 
@@ -62,7 +62,7 @@ public class Article {
         return description;
     }
 
-    void setDescription(String description) {
+    public void setDescription(String description) {
         this.description = description;
     }
 
@@ -71,7 +71,7 @@ public class Article {
         return publicationDate.toString();
     }
 
-    void setPublicationDate(String publicationDate) {
+    public void setPublicationDate(String publicationDate) {
 
         this.publicationDate = LocalDate.parse(publicationDate);
     }
@@ -80,7 +80,7 @@ public class Article {
         return titleOfJournal;
     }
 
-    void setTitleOfJournal(String titleOfJournal) {
+    public void setTitleOfJournal(String titleOfJournal) {
         this.titleOfJournal = titleOfJournal;
     }
 
@@ -88,7 +88,7 @@ public class Article {
         return authorName;
     }
 
-    void setAuthorName(String authorName) {
+    public void setAuthorName(String authorName) {
         this.authorName = authorName;
     }
 
@@ -96,7 +96,7 @@ public class Article {
         return authorSecondName;
     }
 
-    void setAuthorSecondName(String authorSecondName) {
+    public void setAuthorSecondName(String authorSecondName) {
         this.authorSecondName = authorSecondName;
     }
 

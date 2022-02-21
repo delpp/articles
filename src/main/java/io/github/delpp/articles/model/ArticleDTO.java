@@ -5,6 +5,7 @@ import io.github.delpp.articles.persistance.model.Article;
 import java.time.LocalDate;
 
 public class ArticleDTO {
+    private int id;
     private String title;
     private String description;
     private LocalDate publicationDate;
@@ -16,12 +17,21 @@ public class ArticleDTO {
     }
 
     public ArticleDTO(Article source) {
+        id = source.getId();
         title = source.getTitle();
         description = source.getDescription();
         publicationDate = LocalDate.parse(source.getPublicationDate());
         titleOfJournal = source.getTitleOfJournal();
         authorName = source.getAuthorName();
         authorSecondName = source.getAuthorSecondName();
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    void setId(int id) {
+        this.id = id;
     }
 
     public String getTitle() {
@@ -72,4 +82,16 @@ public class ArticleDTO {
         this.authorSecondName = authorSecondName;
     }
 
+    @Override
+    public String toString() {
+        return "ArticleDTO{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", description='" + description + '\'' +
+                ", publicationDate=" + publicationDate +
+                ", titleOfJournal='" + titleOfJournal + '\'' +
+                ", authorName='" + authorName + '\'' +
+                ", authorSecondName='" + authorSecondName + '\'' +
+                '}';
+    }
 }

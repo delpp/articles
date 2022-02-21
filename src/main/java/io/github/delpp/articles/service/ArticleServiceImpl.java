@@ -7,7 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import javax.swing.text.html.Option;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -29,18 +31,37 @@ public class ArticleServiceImpl implements ArticleService{
         return articleRepository.findAll().stream().map(Mapper::articleToDTO).collect(Collectors.toList());
     }
 
-    public Optional<Article> findById(Integer id){
-        return Optional.empty();
+    public Optional<ArticleDTO> findById(Integer id){
+        return articleRepository.findById(id).map(Mapper::articleToDTO);
     }
 
     public Article save(ArticleDTO entity){
-
         return articleRepository.save(Mapper.dtoToArticle(entity));
     }
 
-    public boolean existsById(Integer id){
-        return false;
+    public boolean isArticleExist(Integer id){
+        return articleRepository.existsById(id);
+    }
+
+    public List<ArticleDTO> searchByDescriptionOrTitle(String word){
+        return articleRepository.findAll().stream().filter(x -> (x.getDescription().contains(word) || (x.getTitle().contains(word))))
+                .map(Mapper::articleToDTO)
+                .collect(Collectors.toList());
+    }
+
+    public void update(int id, ArticleDTO newBody){
+            Article article = articleRepository.findById(id).get();
+            article.setTitle(newBody.getTitle());
+            article.setDescription(newBody.getDescription());
+            article.setPublicationDate(String.valueOf(newBody.getPublicationDate()));
+            article.setTitleOfJournal(newBody.getTitleOfJournal());
+            article.setAuthorName(newBody.getAuthorName());
+            article.setAuthorSecondName(newBody.getAuthorSecondName());
+            articleRepository.save(article);
     }
 
 
+    public void deleteArticle(Integer id) {
+        articleRepository.deleteById(id);
+    }
 }

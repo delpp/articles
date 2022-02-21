@@ -12,14 +12,10 @@ public interface ArticleService {
 
     List<ArticleDTO> findAll();
 
-    Optional<Article> findById(Integer id);
+    Optional<ArticleDTO> findById(Integer id);
 
     Article save(ArticleDTO entity);
 
-    //List<Article> findArticlesByTitleContains(@Param("word") String word);
-
-    //List<Article> findArticlesByDescriptionContains(@Param("word") String word);
-
-    boolean existsById(Integer id);
+    boolean isArticleExist(Integer id);
 
 }
