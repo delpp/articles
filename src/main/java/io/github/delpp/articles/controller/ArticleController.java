@@ -71,6 +71,7 @@ class ArticleController {
             return ResponseEntity.notFound().build();
         } else {
             articleService.update(id, toUpdate);
+
             return ResponseEntity.noContent().build();
         }
     }

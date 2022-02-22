@@ -57,6 +57,7 @@ public class ArticleServiceImpl implements ArticleService{
             article.setTitleOfJournal(newBody.getTitleOfJournal());
             article.setAuthorName(newBody.getAuthorName());
             article.setAuthorSecondName(newBody.getAuthorSecondName());
+            //articleRepository.save(article);
     }
 
 
