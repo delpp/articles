@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -47,7 +48,7 @@ class ArticleController {
     @DeleteMapping(path = "/articles/{articleId}")
     ResponseEntity<?> deleteArticle(@PathVariable("articleId") Integer id) {
         articleService.deleteArticle(id);
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.ok().build();
     }
 
     @GetMapping("/articles/{id}")
@@ -63,8 +64,9 @@ class ArticleController {
                 articleService.searchByDescriptionOrTitle(word));
     }
 
+    @Transactional
     @PutMapping("/articles/{id}")
-    ResponseEntity<?> updateArticle(@PathVariable int id, @RequestBody @Valid ArticleDTO toUpdate) {
+    public ResponseEntity<?> updateArticle(@PathVariable int id, @RequestBody @Valid ArticleDTO toUpdate) {
         if (!articleService.isArticleExist(id)) {
             return ResponseEntity.notFound().build();
         } else {
